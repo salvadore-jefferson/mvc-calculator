@@ -23,7 +23,7 @@ public class CalcController {
   static final Logger logger = LoggerFactory.getLogger(CalcController.class);
 
   private String command;
-
+  private Double result;
   private CalcView theView;
   private CalcModel theModel;
 
@@ -50,7 +50,7 @@ public class CalcController {
    * @return result This is used for unit testing
    */
   public Double performCalculation() {
-    Double result = 0.0;
+
     Double first = Double.parseDouble(theView.getFirstOperand());
     Double second = Double.parseDouble(theView.getSecondOperand());
 
@@ -78,17 +78,28 @@ public class CalcController {
     }
 
     theView.setSolution(Double.toString(result));
+
     theView.start = true;
-    logger.debug("Called? {}", theView.start);
+
+    logger.debug("performCalculation() CalcController {}", theView.start);
+
     return result;
   }
 
+  /**
+   * Listens for the calculate("=") button to be pressed and triggers the execution of the
+   * calculation
+   * 
+   * @author Salvadore Jefferson
+   * @version 1.0.0 1-31-1016
+   *
+   */
   private class CalculateListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
       performCalculation();
-      logger.debug("Called? {}", command);
+      logger.debug("actionPerformed() CalcController {}", command);
 
     }
 

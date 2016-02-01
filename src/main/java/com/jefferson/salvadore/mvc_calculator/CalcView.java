@@ -24,17 +24,18 @@ import org.slf4j.LoggerFactory;
  * @version 1.0.0 1-31-2016
  *
  */
-public class CalcView extends JPanel {
+public class CalcView extends JFrame {
+
   static final Logger logger = LoggerFactory.getLogger(CalcView.class);
 
   private static final long serialVersionUID = 1L;
 
   public boolean start = true;
+
   private String firstOperand;
   private String secondOperand;
   private String command;
 
-  private JFrame windowDisplay;
   private JPanel guiDisplay;
   private JButton display;
   private JButton calculate;
@@ -51,7 +52,7 @@ public class CalcView extends JPanel {
    * Builds the graphical user interface of the {@link Calculator} application.
    */
   private void buildGUI() {
-    windowDisplay = new JFrame();
+
     guiDisplay = new JPanel();
     display = new JButton();
     calculate = new JButton("=");
@@ -77,16 +78,15 @@ public class CalcView extends JPanel {
     addButton("AC", new Command());
     addButton("+", new Command());
 
-    windowDisplay.setTitle("MVC-Calculator");
-    windowDisplay.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    windowDisplay.add(display, BorderLayout.NORTH);
-    windowDisplay.add(guiDisplay, BorderLayout.CENTER);
-    windowDisplay.add(calculate, BorderLayout.SOUTH);
+    this.setTitle("MVC-Calculator");
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.add(display, BorderLayout.NORTH);
+    this.add(guiDisplay, BorderLayout.CENTER);
+    this.add(calculate, BorderLayout.SOUTH);
 
-    windowDisplay.setVisible(true);
-    windowDisplay.setSize(200, 250);
-    windowDisplay.setLocationRelativeTo(null);
-    windowDisplay.setResizable(false);
+    this.setSize(200, 250);
+    this.setLocationRelativeTo(null);
+    this.setResizable(false);
 
   }
 
@@ -125,7 +125,7 @@ public class CalcView extends JPanel {
    */
   public void addCalculateListener(ActionListener listenForCalc) {
     calculate.addActionListener(listenForCalc);
-    logger.debug("Called?");
+    logger.debug("calculate() called");
   }
 
   /**
@@ -182,17 +182,22 @@ public class CalcView extends JPanel {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
       if (start) {
+
         firstOperand = e.getActionCommand();
-        display.setText(display.getText() + firstOperand);
+        display.setText(display.getText() + e.getActionCommand());
         firstOperand = display.getText();
-        logger.debug("running? {} {}", start, firstOperand);
+
+        logger.debug("firstOperand {} ", firstOperand);
+
       } else {
-        display.setText("");
+
         secondOperand = e.getActionCommand();
-        display.setText(display.getText() + secondOperand);
+        display.setText(display.getText() + e.getActionCommand());
         secondOperand = display.getText();
-        logger.debug("running? {} {} ", start, secondOperand);
+
+        logger.debug("secondOperand {} ", secondOperand);
       }
     }
   }
@@ -208,6 +213,7 @@ public class CalcView extends JPanel {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+      display.setText("");
       command = e.getActionCommand();
 
       if (command.equals("AC")) {
@@ -215,8 +221,7 @@ public class CalcView extends JPanel {
         start = true;
       } else {
         start = false;
-        logger.debug("running? {}", start);
-        logger.debug("running? {}", command);
+        logger.debug("calculation type {}", command);
       }
     }
 
